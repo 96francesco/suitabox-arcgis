@@ -1,5 +1,5 @@
 <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
-[![License: GPL-3.0](https://img.shields.io/github/license/96francesco/suitabox)](https://opensource.org/licenses/GPL-3.0)
+[![License: GPL-3.0](https://img.shields.io/github/license/96francesco/suitabox-arcgis)](https://opensource.org/licenses/GPL-3.0)
 
 # Suitabox
 This is the repository of Suitabox, an ArcGIS custom toolbox written in Python applicable to ArcGIS Pro.
