@@ -17,23 +17,23 @@ if __name__ == "__main__":
       pass
 else:
       #imports
-      import arcpy
-      from arcpy.sa import *
-      import pandas as pd
-      import os
-      import locale
+      import   arcpy
+      from     arcpy.sa import *
+      import   pandas as pd
+      import   os
+      import   locale
       
       # general settings
-      separator = locale.localeconv()["decimal_point"]
-      path = arcpy.env.workspace + "\\"
+      separator  =   locale.localeconv()["decimal_point"]
+      path       =   arcpy.env.workspace + "\\"
       
       # user inputs
-      mask_area = arcpy.GetParameterAsText(2) # area of study 
-      ws_points = arcpy.GetParameterAsText(3) # points shapefile of the weather stations
-      topography = arcpy.GetParameterAsText(5) # digital elevation model
+      mask_area  =   arcpy.GetParameterAsText(2)   # area of study 
+      ws_points  =   arcpy.GetParameterAsText(3)   # points shapefile of the weather stations
+      topography =   arcpy.GetParameterAsText(5)   # digital elevation model
 
-      flowering_period = arcpy.GetParameterAsText(8) # custom flowering period
-      fruit_growth_period = arcpy.GetParameterAsText(9) # custom fruit set and growth period
+      flowering_period     = arcpy.GetParameterAsText(8)    # custom flowering period
+      fruit_growth_period  = arcpy.GetParameterAsText(9)    # custom fruit set and growth period
 
       # set custom flowering period if required
       if flowering_period != '-':
