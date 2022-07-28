@@ -39,7 +39,8 @@ Suitabox uses meteorological data collected from local station networks to analy
 * Type the path or navigate to the suitabox folder and click OK.
 * Browse into the toolbox and start using its tools. 
 
-  ![image](https://user-images.githubusercontent.com/88101466/171162778-f837c111-34aa-4053-b9ae-2cbb2a710eea.png)
+  ![image](https://user-images.githubusercontent.com/88101466/181484592-b410fea8-08ba-4318-a7b8-17ca54fd057c.png)
+
 
 # **Usage**
 Double-click on a tool within the toolbox to open it and start using it. Please see the tool metadata/help documentation for more information on how to use each tool.
@@ -47,9 +48,10 @@ Double-click on a tool within the toolbox to open it and start using it. Please 
 ## Tools
 At the moment, Suitabox only has two tools. Updates with new tools will be made available soon. **Crop Suitability tool** is the core instrument of this toolbox, while **Custom Crop Pre-Processing** serves as a support for the *Custom Crop* option in the former tool.
 
-<img src="https://user-images.githubusercontent.com/88101466/171174916-9a98799d-f278-4030-9fa8-c46d68f39dcd.jpg" width="700" height="600">
+<img src="https://user-images.githubusercontent.com/88101466/181483773-20e0213c-355a-4e5d-83bb-6cdd4648fb84.jpg" width="900" height="400">
 
-<img src="https://user-images.githubusercontent.com/88101466/171177297-a5c7398b-7f74-4853-abb2-6241bf789bb0.png" width="900" height="300">
+<img src="https://user-images.githubusercontent.com/88101466/181484001-4aa46103-3ddd-4be0-aaaa-7b8918524215.jpg" width="900" height="300">
+
 
 ## Contributions
 If you'd want to contribute as a developer to the project, take these steps to get started:
