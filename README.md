@@ -54,7 +54,7 @@ At the moment, Suitabox only has two tools. Updates with new tools will be made 
 ## Contributions
 If you'd want to contribute as a developer to the project, take these steps to get started:
 
-  1. Fork the toolbox repository (https://github.com/96francesco/suitabox)
+  1. Fork the toolbox repository (https://github.com/96francesco/suitabox-arcgis)
   2. Create your feature branch (git checkout -b my-new-feature)
   3. Commit your changes (git commit -m 'Add new feature')
   4. Push to the branch (git push origin my-new-feature)
