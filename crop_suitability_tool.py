@@ -374,25 +374,25 @@ if __name__ == "__main__":
         # call the method related to the crop species selected by the user
         arcpy.AddMessage("Doing the computation. It can take a few minutes, depending on your inputs...") # just a message
         if crop_species   ==   "Avocado":
-                import avocado_pro
-                avocado_pro   = reload(avocado_pro)
-                avocado_pro.avocado_fun()
+                import avocado
+                avocado   = reload(avocado)
+                avocado.avocado_fun()
         elif crop_species ==   "Kiwifruit":
-                import kiwifruit_pro
-                kiwifruit_pro = reload(kiwifruit_pro)
-                kiwifruit_pro.kiwifruit_fun()
+                import kiwifruit
+                kiwifruit_pro = reload(kiwifruit)
+                kiwifruit.kiwifruit_fun()
         elif crop_species == "Walnut":
-                import walnut_pro
-                walnut_pro    = reload(walnut_pro)
-                walnut_pro.walnut_fun()
+                import walnut
+                walnut    = reload(walnut)
+                walnut.walnut_fun()
         elif crop_species == "European hazelnut":
-                import hazelnut_pro
-                hazelnut_pro  = reload(hazelnut_pro)
-                hazelnut_pro.hazelnut_fun()
+                import hazelnut
+                hazelnut  = reload(hazelnut)
+                hazelnut.hazelnut_fun()
         elif crop_species == "Custom crop":
-                import custom_crop_pro
-                custom_crop_pro = reload(custom_crop_pro)
-                custom_crop_pro.custom_crop_fun()
+                import custom_crop
+                custom_crop = reload(custom_crop)
+                custom_crop.custom_crop_fun()
 
 
 
