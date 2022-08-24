@@ -45,7 +45,7 @@ Suitabox uses meteorological data collected from local station networks to analy
 # **Usage**
 Double-click on a tool within the toolbox to open it and start using it. Please see the tool metadata/help documentation for more information on how to use each tool.
 
-## Tools
+# **Tools**
 At the moment, Suitabox only has two tools. Updates with new tools will be made available soon. **Crop Suitability tool** is the core instrument of this toolbox, while **Custom Crop Pre-Processing** serves as a support for the *Custom Crop* option in the former tool.
 
 <img src="https://user-images.githubusercontent.com/88101466/181483773-20e0213c-355a-4e5d-83bb-6cdd4648fb84.jpg" width="900" height="400">
