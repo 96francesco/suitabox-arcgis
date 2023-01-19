@@ -16,7 +16,7 @@ If not, see <https://www.gnu.org/licenses/>.
 import arcpy
 import pandas as pd
 
-def table_to_data_frame(in_table, input_fields=None, where_clause=None):
+def table_to_dataframe(in_table, input_fields=None, where_clause=None):
       """
       Convert an ArcGIS table into a pd.DataFrame with an object ID index,
       and the selected input fields using an arcpy.da.SearchCursor
