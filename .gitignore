@@ -1,3 +1,2 @@
-custom_params.csv
-record_set.dbf.xml
-__pycache__/avocado_pro.cpython-39.pyc
+# __pycache__ directory
+__pycache__
