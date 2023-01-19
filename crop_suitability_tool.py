@@ -313,6 +313,53 @@ def delete_temp_files():
         for f in trash_files:
                 os.remove(os.path.join(path, f))
 
+def apply_rcp_model(model, period):
+        """
+        Raster -> Table(s)
+        Consume the selected RCP model and period to adjust the temperature
+        values of the imported weather dataset(s), extracting the raster values
+        with the weather stations points
+        """
+        rcp        =   arcpy.Raster("{path}\\RCPs\\{rcp}_{period}.tif".format(
+                           path=tbx_dir, rcp=model, period=period))
+        
+        arcpy.MakeFeatureLayer_management(ws_points, 'ws_points_layer')
+        arcpy.MakeRasterLayer_management(rcp, "rcp_layer")
+        in_layer   =  "ws_points_layer"
+        rcp_layer  =  "rcp_layer"
+        ExtractValuesToPoints(in_layer, rcp_layer, "ws_layer")
+
+        for file in os.listdir(path):
+                        os.chdir(path)
+                        if file.startswith("weather_dataset_"):
+                                csv_name  =  os.path.basename(path + str(file))
+                                csv_index =  csv_name.split("_")[2]
+                                csv_index =  csv_index.split(".")[0]
+                                ws_layer  =  "{}\\ws_layer.shp".format(path)
+
+                                arcpy.MakeTableView_management(file, "csv")
+                                memory_table = arcpy.CopyRows_management("csv", "memory/copied")
+
+                                arcpy.JoinField_management(memory_table, "ID", ws_layer, "ID", 
+                                                "RASTERVALU")
+
+                                out_name = "weather_dataset_{}.csv".format(str(csv_index))
+                                arcpy.TableToTable_conversion(memory_table, path, out_name)
+
+                                # do the correction with the predicted temperature increase
+                                new_csv         =  pd.read_csv(file)
+                                new_csv["Tair"] =  new_csv["Tair"] + new_csv["RASTERVALU"]
+
+                                new_csv.to_csv("{path}\\new_dataset_{index}.csv".format(path=path, 
+                                        index=str(csv_index)))
+                                os.remove("{path}\\weather_dataset_{index}.csv".format(path=path, 
+                                        index=str(csv_index)))
+        
+        # remove useless files from working directory
+        xml_files = [i for i in os.listdir(path) if i.endswith(".txt.xml") or\
+                        i.endswith(".csv.xml")]
+        for n in xml_files:
+                os.remove(os.path.join(path, n))
 
 if __name__ == "__main__":
 
@@ -330,46 +377,46 @@ if __name__ == "__main__":
         manage_weather_datasets(hourly_data)
 
         # produce new weather datasets, according to the selected RCP model
-        if rcp_model != "None":   
-                arcpy.AddMessage("Selected RCP: {rcp}, period: {period}".format(
-                        rcp=rcp_model, period=rcp_period))
-                rcp = arcpy.Raster("{path}\\RCPs\\{rcp}_{period}.tif".format(
-                        path=tbx_dir, rcp=rcp_model, period=rcp_period))
-                arcpy.MakeFeatureLayer_management(ws_points, 'ws_points_layer')
-                in_layer = "ws_points_layer"
-                arcpy.MakeRasterLayer_management(rcp, "rcp_layer")
-                rcp_layer = "rcp_layer"
-                ExtractValuesToPoints(in_layer, rcp_layer, "ws_layer")
+        # if rcp_model != "None":   
+        #         arcpy.AddMessage("Selected RCP: {rcp}, period: {period}".format(
+        #                 rcp=rcp_model, period=rcp_period))
+        #         rcp = arcpy.Raster("{path}\\RCPs\\{rcp}_{period}.tif".format(
+        #                 path=tbx_dir, rcp=rcp_model, period=rcp_period))
+        #         arcpy.MakeFeatureLayer_management(ws_points, 'ws_points_layer')
+        #         in_layer = "ws_points_layer"
+        #         arcpy.MakeRasterLayer_management(rcp, "rcp_layer")
+        #         rcp_layer = "rcp_layer"
+        #         ExtractValuesToPoints(in_layer, rcp_layer, "ws_layer")
 
-                for file in os.listdir(path):
-                        os.chdir(path)
-                        if file.startswith("weather_dataset_"):
-                                csv = pd.read_csv(file)
-                                csv_name = os.path.basename(path + str(file))
-                                csv_index = csv_name.split("_")[2]
-                                csv_index = csv_index.split(".")[0]
-                                ws_layer = "{}\\ws_layer.shp".format(path)
+        #         for file in os.listdir(path):
+        #                 os.chdir(path)
+        #                 if file.startswith("weather_dataset_"):
+        #                         csv = pd.read_csv(file)
+        #                         csv_name = os.path.basename(path + str(file))
+        #                         csv_index = csv_name.split("_")[2]
+        #                         csv_index = csv_index.split(".")[0]
+        #                         ws_layer = "{}\\ws_layer.shp".format(path)
 
-                                arcpy.MakeTableView_management(file, "csv")
-                                memory_table = arcpy.CopyRows_management("csv", "memory/copied")
+        #                         arcpy.MakeTableView_management(file, "csv")
+        #                         memory_table = arcpy.CopyRows_management("csv", "memory/copied")
 
-                                arcpy.JoinField_management(memory_table, "ID", ws_layer, "ID", "RASTERVALU")
+        #                         arcpy.JoinField_management(memory_table, "ID", ws_layer, "ID", "RASTERVALU")
 
-                                out_name = "weather_dataset_{}.csv".format(str(csv_index))
-                                arcpy.TableToTable_conversion(memory_table, path, out_name)
+        #                         out_name = "weather_dataset_{}.csv".format(str(csv_index))
+        #                         arcpy.TableToTable_conversion(memory_table, path, out_name)
 
-                                # do the correction with the predicted temperature increase
-                                new_csv = pd.read_csv(file)
-                                new_csv["Tair"] = new_csv["Tair"] + new_csv["RASTERVALU"]
-                                new_csv.to_csv("{path}\\new_dataset_{index}.csv".format(path=path, 
-                                        index=str(csv_index)))
-                                os.remove("{path}\\weather_dataset_{index}.csv".format(path=path, 
-                                        index=str(csv_index)))
-                # remove useless files from working directory
-                xml_files = [i for i in os.listdir(path) if i.endswith(".txt.xml") or\
-                         i.endswith(".csv.xml")]
-                for n in xml_files:
-                        os.remove(os.path.join(path, n))
+        #                         # do the correction with the predicted temperature increase
+        #                         new_csv = pd.read_csv(file)
+        #                         new_csv["Tair"] = new_csv["Tair"] + new_csv["RASTERVALU"]
+        #                         new_csv.to_csv("{path}\\new_dataset_{index}.csv".format(path=path, 
+        #                                 index=str(csv_index)))
+        #                         os.remove("{path}\\weather_dataset_{index}.csv".format(path=path, 
+        #                                 index=str(csv_index)))
+        #         # remove useless files from working directory
+        #         xml_files = [i for i in os.listdir(path) if i.endswith(".txt.xml") or\
+        #                  i.endswith(".csv.xml")]
+        #         for n in xml_files:
+        #                 os.remove(os.path.join(path, n))
 
         # call the method related to the crop species selected by the user
         arcpy.AddMessage("Doing the computation. It can take a few minutes, depending on your inputs...") # just a message
