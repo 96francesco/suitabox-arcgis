@@ -12,12 +12,10 @@ PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with Foobar. 
 If not, see <https://www.gnu.org/licenses/>.
 """
+
 import arcpy
 from arcpy.sa import *
 from join_data_to_stations import join_data_to_stations
-
-
-
 
 def interpolate_weather_parameter(power, search_radius, cell_size):
     """
