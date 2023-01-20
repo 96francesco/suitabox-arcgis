@@ -53,6 +53,7 @@ output_gdb = arcpy.GetParameterAsText(16)  # geodatabase to store the output ras
 ## CONSTANTS
 ## they are still treated as variable, i.e., named with lower-case lettersm
 ## since their value can change according to user necessities. 
+
 list_length = len(weather_data)  # number of datasets uploaded by user
 pixel_size = int(pixel_size)  # pixel size string to integer conversion
 
@@ -78,134 +79,31 @@ arcpy.AddMessage(
 )  
 
 
-## FUNCTIONS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def join_data_to_stations(index):
-    """
-      !!!
-      """
-    in_table = "weather_stat_{}".format(index)
-    in_field = "ID"
-    in_features = "ws_feature_layer"
-
-    joined_table = arcpy.AddJoin_management(
-        in_features, in_field, in_table, in_field, join_type="KEEP_ALL"
-    )
-    arcpy.CopyFeatures_management(joined_table, "joined_ws_{}".format(index))
-
-    return "joined_ws_{}".format(index)
-
-
-def compute_lapse_rate_correction(
-    suitability_layers, stat, points, alt_field, cell_size, power, search_radius, dem
-):
-    """
-      !!!
-      """
-
-    def create_lapse_rate_layer():
-        """
-            !!!
-            """
-        interpolated_dem = Idw(points, alt_field, cell_size, power, search_radius)
-        dem_difference = interpolated_dem - dem
-        lapse_rate_correction = dem_difference * 0.0065
-
-        return (dem_difference, lapse_rate_correction)
-
-    dem_difference, lapse_rate_layer = [
-        create_lapse_rate_layer()[0],
-        create_lapse_rate_layer()[1],
-    ]
-
-    for i, f in enumerate(suitability_layers):
-        if stat != "chilling hours":
-            suitability_layers[i] = f + lapse_rate_layer
-        else:
-            suitability_layers[i] = Con(
-                (dem_difference >= -400), f - (-0.0032 * (dem_difference) ** 2), f
-            )
-
-    return suitability_layers
-
-
-def compute_interpolation(stations_with_data, cell_size, power, search_radius):
-    """
-      !!!
-      """
-    interpolated_raster = Idw(
-        stations_with_data, "STAT", cell_size, power, search_radius
-    )
-
-    return interpolated_raster
-
-
-def compute_average_raster(single_year_rasters, study_area):
-    """
-    Raster -> Raster
-    """
-    average_raster = CellStatistics(single_year_rasters, "MEAN")
-    average_raster = ExtractByMask(average_raster, study_area)
-
-    return average_raster
-
-
-def interpolate_weather_parameter(power, search_radius):
-    for table in arcpy.ListTables():
-        table_index = table.split("_")[2]
-        joined_ws = join_data_to_stations(table_index)
-        interpolated_raster = compute_interpolation(
-            joined_ws, pixel_size, power, search_radius
-        )
-        interpolated_raster.save("memory/idw_raster_{}".format(table_index))
-    interpolated_param_layers = [f for f in arcpy.ListRasters() if f.startswith("idw")]
-    return interpolated_param_layers
-
-
-def reclassify_raster(in_raster, remap_table, out_dir, out_name):
-
-      raster_layer = arcpy.MakeRasterLayer_management(in_raster, "raster_layer")
-      reclassified_raster = Reclassify(raster_layer, "Value", remap_table)
-      reclassified_raster = Float(reclassified_raster)
-      arcpy.CopyRaster_management(
-            reclassified_raster, "{gdb}//{name}".format(gdb=out_dir, name=out_name)
-      )
-
-      return reclassified_raster
-
-
 ## EXECUTION
 
 if __name__ == "__main__":
 
-
+      # import required functions
       from split_weather_datasets import split_weather_datasets
-      
+      from handle_stat import handle_stat
+      from interpolate_weather_parameter import interpolate_weather_parameter
+      from compute_final_raster import *
+
       split_weather_datasets(weather_data, list_length)
 
       if data_subset_range != "-":
-            from src import manage_subset_range
+            from manage_subset_range import manage_subset_range
+            
             manage_subset_range(data_subset_range, list_length)
 
       handle_stat(list_length, statistics, field)
       interpolated_param_layers = interpolate_weather_parameter(
-            idw_power, idw_search_radius
+            idw_power, idw_search_radius, pixel_size
       )
 
       if dem:
+            from compute_lapse_rate_correction import compute_lapse_rate_correction
+
             arcpy.AddMessage("Computing the topographic correction...")
             interpolated_param_layers = compute_lapse_rate_correction(
                   interpolated_param_layers,
