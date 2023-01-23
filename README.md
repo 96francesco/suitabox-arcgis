@@ -2,15 +2,7 @@
 [![License: GPL-3.0](https://img.shields.io/github/license/96francesco/suitabox-arcgis)](https://opensource.org/licenses/GPL-3.0)
 
 # Suitabox
-This is the repository of Suitabox, an ArcGIS custom toolbox written in Python applicable to ArcGIS Pro.
-<img src="https://user-images.githubusercontent.com/88101466/171201971-a2c3b362-279b-450f-95f8-47d6d20967e8.png" width="250" height="350">
-
-
-* Development: [Francesco Pasanisi](https://github.com/96francesco)
-* Software and theoretical contribution: [Dr. Juan Miguel Ramirez-Cuesta](https://www.researchgate.net/profile/Juan-Ramirez-Cuesta)
-* Theoretical contribution: 
-  - [Prof. Gaetano Alessandro Vivaldi](https://www.researchgate.net/profile/Gaetano_Alessandro_Vivaldi)
-  - [Dr. Diego Intrigliolo](https://www.researchgate.net/profile/Diego-Intrigliolo)
+This is the repository of Suitabox, an ArcGIS Pro custom toolbox written in Python.
 
 **Contents**
 1. [Description](#description)
@@ -20,7 +12,6 @@ This is the repository of Suitabox, an ArcGIS custom toolbox written in Python a
 5. [Contributions](#contributions)
 6. [License](#license)
 7. [Troubleshooting](#troubleshooting)
-8. [Alerts](#alerts)
 
 ## Description
 Suitabox uses meteorological data collected from local station networks to analyze the suitable distribution of a crop in a specific area based on agroecological criteria. There are 4 default crops at this moment (avocado, kiwifruit, European hazelnut and walnut), and the criteria applied to these crops were obtained from scientific literature. Suitabox allows users to submit customized parameters, through a specific tool, in order to provide them more flexibility and because there aren't many references about specific agroecological thresholds. In addition, the toolkit allows users to use four [RCP models](https://en.wikipedia.org/wiki/Representative_Concentration_Pathway) to explore how a climate change scenario can influence a crop species within the considered study area. Suitabox now only uses air temperature and elevation data, with no soil data or other meteorological variables, to maintain simplicity for all types of users, but fresh updates will soon fill in these gaps.
@@ -110,9 +101,4 @@ The ArcGIS Toolbox for Suitabox is distributed under the [GPL 3.0 license](https
 
 ## Troubleshooting
 Suitabox is distributed as is and without any kind of warranty. If you encounter software errors or bugs please report the issue. Providing a thorough account of the circumstances in which the problem occurred will aid in the bug's identification. Use the [Issues tracker](https://github.com/96francesco/suitabox/issues) on GitHub to report bugs in the software and ask for feature enhancements
-
-## Alerts
-Unfortunately for ArcGIS Pro users, the automatic upload of the symbology does not work for the stretched values maps and the additional outputs due to a possible [bug](https://community.esri.com/t5/python-questions/arcpy-management-applysymbologyfromlayer-works/td-p/1137999) in the [ArcPy ApplySymbologyFromLayer() module](https://pro.arcgis.com/en/pro-app/latest/tool-reference/data-management/apply-symbology-from-layer.htm). The users can manually upload the symbology provided within the folder using the Symbology panel and select **Import from layer file**.
-
-![image](https://user-images.githubusercontent.com/88101466/171421844-343cfd09-81ff-4f30-9ba4-5c7041f322b5.png)
 
