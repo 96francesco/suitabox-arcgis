@@ -13,15 +13,12 @@ You should have received a copy of the GNU General Public License along with Foo
 If not, see <https://www.gnu.org/licenses/>.
 """
 
-
 import os
 import arcpy
-import pandas as pd
 from arcpy.sa import *
 import sys
 
 sys.path.insert(1, 'src')
-
 
 
 ## USER INPUTS
