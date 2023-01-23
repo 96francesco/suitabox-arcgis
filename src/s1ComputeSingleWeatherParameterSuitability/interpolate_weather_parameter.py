@@ -35,7 +35,7 @@ def interpolate_weather_parameter(power, search_radius, cell_size):
                     The desired pixel size of the final output.
     """
 
-    def compute_interpolation(stations_with_data):
+    def compute_interpolation(stations_with_data, cell_size, power, search_radius):
         """
         Helper function to execute the actual interpolation.
         
