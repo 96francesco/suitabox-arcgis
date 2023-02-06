@@ -88,16 +88,19 @@ if __name__ == "__main__":
 
       split_weather_datasets(weather_data, list_length)
 
+      # if user has a custom DoY range, modify the input dataset accordingly
       if data_subset_range != "-":
             from manage_subset_range import manage_subset_range
             
             manage_subset_range(data_subset_range, list_length)
 
+      # call the correct function to calculate the required statistics
       handle_stat(list_length, statistics, field)
       interpolated_param_layers = interpolate_weather_parameter(
             idw_power, idw_search_radius, pixel_size
       )
 
+      # if user upload a DEM raster, compute the lapse rate correction
       if dem:
             from compute_lapse_rate_correction import compute_lapse_rate_correction
 
@@ -113,6 +116,7 @@ if __name__ == "__main__":
                   dem,
             )
 
+      # compute final output
       average_raster = compute_average_raster(interpolated_param_layers, study_area)
       reclassified_raster = reclassify_raster(
             average_raster, reclass_table, output_gdb, output_name
