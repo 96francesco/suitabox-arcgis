@@ -44,8 +44,6 @@ altitude_field = arcpy.GetParameterAsText(14)  # field with stations' altitude
 
 # Category: Output settings
 output_name = arcpy.GetParameterAsText(15)  # name to give to the output raster layer
-output_gdb = arcpy.GetParameterAsText(16)  # geodatabase to store the output raster layer
-
 
 ## CONSTANTS
 ## they are still treated as variable, i.e., named with lower-case lettersm
@@ -69,11 +67,6 @@ arcpy.env.workspace = "memory"  # set workspace in memory
 # make feature layers from the feature classes
 arcpy.MakeFeatureLayer_management(study_area, "study_area_feature_layer")
 arcpy.MakeFeatureLayer_management(ws_points, "ws_feature_layer")  
-
-# just a message
-arcpy.AddMessage(
-    "The output will be saved in the geodatabase: {}".format(output_gdb)
-)  
 
 
 ## EXECUTION
@@ -119,6 +112,6 @@ if __name__ == "__main__":
       # compute final output
       average_raster = compute_average_raster(interpolated_param_layers, study_area)
       reclassified_raster = reclassify_raster(
-            average_raster, reclass_table, output_gdb, output_name
+            average_raster, reclass_table, output_name
       )
 

@@ -36,7 +36,7 @@ def compute_average_raster(single_year_rasters, study_area):
       return average_raster
 
 
-def reclassify_raster(in_raster, remap_table, out_dir, out_name):
+def reclassify_raster(in_raster, remap_table, out_name):
       """
       Reclassify the average raster according to the remap table 
       uploaded by user.
@@ -48,10 +48,9 @@ def reclassify_raster(in_raster, remap_table, out_dir, out_name):
       remap_table:      Remap table
                                     The remap table uploaded by 
                                     the user.
-      out_dir:    Geodatabase
-                              The output geodatabase
-      out_name:   str
-                        The name of the output.
+      out_name:   Raster Dataset
+                        The name of the output, saved to a file
+                        Geodatabase
       """
 
       # make a raster layer of the average raster
@@ -60,10 +59,8 @@ def reclassify_raster(in_raster, remap_table, out_dir, out_name):
       # reclassify according to the remap table
       reclassified_raster = Reclassify(raster_layer, "Value", remap_table)
       reclassified_raster = Float(reclassified_raster)
-      
-      # save the reclassified raster to the output geodatabase
       arcpy.CopyRaster_management(
-            reclassified_raster, "{gdb}//{name}".format(gdb=out_dir, name=out_name)
+            reclassified_raster, out_name
       )
 
       return reclassified_raster
