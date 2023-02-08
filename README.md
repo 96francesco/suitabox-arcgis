@@ -38,10 +38,16 @@ git clone https://github.com/96francesco/suitabox-arcgis.git
 
 
 # **Tools**
+### 1. **s1ComputeWeatherParameterSuitability**
+This tool is used to create a suitability raster layer based on a chosen weather parameter. 
 
+### 2. s2ComputeSoilParameterSuitability
+This tool is used to create a suitability raster layer based on a soil parameter (for instance, pH, EC, texture).
 
+### 3. FinalSuitabilityModel
+This tool, built on the ModelBuilder, is useful to combine the results of the previous tools into a an expression in the Raster Calculator, in order to obtain a final, global suitability raster layer. To use it properly, double-click on the tool icon and click **Edit**. This way, users can copy/paste the previous tools more times inside the model diagram in order to reiterate the computation over more parameters, and then connecting the output of each iteration to the Raster Calculator as **Precondition**. Users can implement their own final suitability score calculation (for instance, a weighted calculation). 
 
-## Contributions
+# **Contributions**
 If you'd want to contribute as a developer to the project, take these steps to get started:
 
   1. Fork the toolbox repository (https://github.com/96francesco/suitabox-arcgis)
@@ -50,9 +56,9 @@ If you'd want to contribute as a developer to the project, take these steps to g
   4. Push to the branch (git push origin my-new-feature)
   5. Create a new Pull Request
 
-## License
-The ArcGIS Toolbox for Suitabox is distributed under the [GPL 3.0 license](https://opensource.org/licenses/GPL-3.0), a permissive open-source license.
+# **License**
+The ArcGIS Toolbox for Suitabox is distributed under the [GPL 3.0 license](https://opensource.org/licenses/GPL-3.0), a copyleft open-source license.
 
-## Troubleshooting
+# **Troubleshooting**
 Suitabox is distributed as is and without any kind of warranty. If you encounter software errors or bugs please report the issue. Providing a thorough account of the circumstances in which the problem occurred will aid in the bug's identification. Use the [Issues tracker](https://github.com/96francesco/suitabox/issues) on GitHub to report bugs in the software and ask for feature enhancements
 
