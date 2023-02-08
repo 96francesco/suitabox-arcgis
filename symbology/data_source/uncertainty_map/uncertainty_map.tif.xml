@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<metadata xml:lang="en"><Esri><CreaDate>20220207</CreaDate><CreaTime>15570600</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="c:\program files (x86)\arcgis\desktop10.5\ArcToolbox\Toolboxes\Spatial Analyst Tools.tbx\ExtractByMask" Date="20220207" Time="155706">ExtractByMask E:\Global-Thesis\ToolboxTest\unc_test_output\\uncertainty.tif comunitat_valenciana E:\Global-Thesis\ToolboxTest\unc_test_output\uncertainty_map.tif</Process></lineage></DataProperties></Esri></metadata>
