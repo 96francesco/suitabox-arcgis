@@ -79,6 +79,12 @@ if __name__ == "__main__":
       from interpolate_weather_parameter import interpolate_weather_parameter
       from compute_final_raster import *
 
+       # check if input pixel size and DEM resolution match
+      if dem and int(pixel_size) != round(float(str(arcpy.GetRasterProperties_management(dem, 
+                                                'CELLSIZEX')))):
+            arcpy.AddError("Desired pixel size and DEM resolution do not match.")
+            exit()
+
       split_weather_datasets(weather_data, list_length)
 
       # if user has a custom DoY range, modify the input dataset accordingly
@@ -96,7 +102,7 @@ if __name__ == "__main__":
       # if user upload a DEM raster, compute the lapse rate correction
       if dem:
             from compute_lapse_rate_correction import compute_lapse_rate_correction
-
+            
             arcpy.AddMessage("Computing the topographic correction...")
             interpolated_param_layers = compute_lapse_rate_correction(
                   interpolated_param_layers,
