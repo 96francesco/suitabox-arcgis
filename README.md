@@ -39,10 +39,15 @@ git clone https://github.com/96francesco/suitabox-arcgis.git
 
 ## **Tools**
 ### 1. **s1ComputeWeatherParameterSuitability**
-This tool is used to create a suitability raster layer based on a chosen weather parameter. 
+This tool is used to create a suitability raster layer based on a chosen weather parameter. This tool works with inputs uploaded from a file Geodatabase (tables, raster and feature classes). The suitability distribution is computed through interpolation of the weather parameter, using metereological data from local weather stations, and through reclassification of the interpolated layer. At the moment, the only interpolation method available is [Inverse Distance Weighting (IDW)](https://en.wikipedia.org/wiki/Inverse_distance_weighting), but geostatistics methods will be implemented with next releases. 
+The crucial inputs of this tool are:
+* A feature class with the boundaries of the study area;
+* A feature class with the points of the weather stations. This feature class must have a column named **ID**, showing a unique number for each station. If the user wants the tool to compute the lapse rate correction, another field with the altitude of each station is required.
+* One ore more tables containing the weather stations data. These datasets must have an ID column to join them to the relative weather station and carry out calculations and interpolation.
+* The reclassification table to reclassify the interpolated raster. 
 
 ### 2. s2ComputeSoilParameterSuitability
-This tool is used to create a suitability raster layer based on a soil parameter (for instance, pH, EC, texture).
+This tool is used to create a suitability raster layer based on a soil parameter (for instance, pH, EC, texture). The suitability distribution is comptued through reclassification of the values of the input raster, through a reclassification table the user must fill in the tool panel. 
 
 ### 3. FinalSuitabilityModel
 This tool, built on the ModelBuilder, is useful to combine the results of the previous tools into a an expression in the Raster Calculator, in order to obtain a final, global suitability raster layer. To use it properly, double-click on the tool icon and click **Edit**. This way, users can copy/paste the previous tools more times inside the model diagram in order to reiterate the computation over more parameters, and then connecting the output of each iteration to the Raster Calculator as **Precondition**. Users can implement their own final suitability score calculation (for instance, a weighted calculation). 
