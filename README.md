@@ -44,12 +44,13 @@ The crucial inputs of this tool are:
 * A feature class with the boundaries of the study area;
 * A feature class with the points of the weather stations. This feature class must have a column named **ID**, showing a unique number for each station. If the user wants the tool to compute the lapse rate correction, another field with the altitude of each station is required.
 * One ore more tables containing the weather stations data. These datasets must have an ID column to join them to the relative weather station and carry out calculations and interpolation.
+* The statistic to compute. At the moment, there are six options: **mean**, **minimum**, **maximum**, **average of daily minimum**, **average of daily maximum** and **chilling hours** (the last one computed considering Wineberger model).
 * The reclassification table to reclassify the interpolated raster. 
 
-### 2. s2ComputeSoilParameterSuitability
+### 2. **s2ComputeSoilParameterSuitability**
 This tool is used to create a suitability raster layer based on a soil parameter (for instance, pH, EC, texture). The suitability distribution is comptued through reclassification of the values of the input raster, through a reclassification table the user must fill in the tool panel. 
 
-### 3. s3ApplyClimateChangeScenarios
+### 3. **s3ApplyClimateChangeScenarios**
 This tool is used to modify a weather dataset using values extracted from a [RCP](https://en.wikipedia.org/wiki/Representative_Concentration_Pathway) raster layer
 containing the predicted increase of air temperature (expressed in °C) for a certain area.
 The user can then import the output CSV file as a table in a file Geodatabase and use it as input for the **s1ComputeWeatherParameterSuitability** tool.
