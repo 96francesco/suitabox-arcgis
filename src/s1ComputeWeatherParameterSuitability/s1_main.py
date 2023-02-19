@@ -72,6 +72,10 @@ arcpy.MakeFeatureLayer_management(ws_points, "ws_feature_layer")
 ## EXECUTION
 
 if __name__ == "__main__":
+      
+      # Wipe out the memory workspace
+      for table in arcpy.ListTables():
+            arcpy.Delete_management(table)
 
       # import required functions
       from split_weather_datasets import split_weather_datasets
