@@ -49,7 +49,12 @@ The crucial inputs of this tool are:
 ### 2. s2ComputeSoilParameterSuitability
 This tool is used to create a suitability raster layer based on a soil parameter (for instance, pH, EC, texture). The suitability distribution is comptued through reclassification of the values of the input raster, through a reclassification table the user must fill in the tool panel. 
 
-### 3. FinalSuitabilityModel
+### 3. s3ApplyClimateChangeScenarios
+This tool is used to modify a weather dataset using values extracted from a RCP raster layer
+containing the predicted increase of air temperature (expressed in °C) for a certain area.
+The user can then import the output CSV file as a table in a file Geodatabase and use it as input for the **s1ComputeWeatherParameterSuitability** tool.
+
+### 4. FinalSuitabilityModel
 This tool, built on the ModelBuilder, is useful to combine the results of the previous tools into a an expression in the Raster Calculator, in order to obtain a final, global suitability raster layer. To use it properly, double-click on the tool icon and click **Edit**. This way, users can copy/paste the previous tools more times inside the model diagram in order to reiterate the computation over more parameters, and then connecting the output of each iteration to the Raster Calculator as **Precondition**. Users can implement their own final suitability score calculation (for instance, a weighted calculation). 
 
 ## **Contributions**
