@@ -50,7 +50,7 @@ The crucial inputs of this tool are:
 This tool is used to create a suitability raster layer based on a soil parameter (for instance, pH, EC, texture). The suitability distribution is comptued through reclassification of the values of the input raster, through a reclassification table the user must fill in the tool panel. 
 
 ### 3. s3ApplyClimateChangeScenarios
-This tool is used to modify a weather dataset using values extracted from a RCP raster layer
+This tool is used to modify a weather dataset using values extracted from a [RCP](https://en.wikipedia.org/wiki/Representative_Concentration_Pathway) raster layer
 containing the predicted increase of air temperature (expressed in °C) for a certain area.
 The user can then import the output CSV file as a table in a file Geodatabase and use it as input for the **s1ComputeWeatherParameterSuitability** tool.
 
