@@ -17,66 +17,37 @@ import arcpy
 from arcpy.sa import *
 import pandas as pd
 
-def table_to_dataframe(in_table, input_fields=None, where_clause=None):
+def extract_raster_values(raster_file, points):
       """
-      Convert an ArcGIS table into a pd.DataFrame with an object ID index,
-      and the selected input fields using an arcpy.da.SearchCursor
-      
+      Extract values from a raster layer using points. 
+
       Parameters
       ----------
-      in_table:     str
-                        The directory of the table to convert.
-      input_fields: str
-                        A list (or tuple) of field names. 
-                        For a single field, you can use a string instead 
-                        of a list of strings.
-      wbere_clause: str
-                        An optional expression that limits the records 
-                        returned. For more information on where 
-                        clauses and SQL statements
+      raster_file : str
+                        Path to the raster file.
+      points : Feature class
+                        Feature class object containing the points.
       
       Returns
       -------
-      pd.DataFrame
-                        The converted table to a pd.DataFrame.
+      extracted_values : Feature class
+                        Feature class object containing the extracted values.
       """
-      OIDFieldName = arcpy.Describe(in_table).OIDFieldName
-      
-      if input_fields:
-            final_fields = [OIDFieldName] + input_fields
-      else:
-            final_fields = [field.name for field in arcpy.ListFields(in_table)]
-      
-      data = [
-            row
-            for row in arcpy.da.SearchCursor(
-                  in_table, final_fields, where_clause=where_clause
-            )
-      ]
-      fc_dataframe = pd.DataFrame(data, columns=final_fields)
-      fc_dataframe = fc_dataframe.set_index(OIDFieldName, drop=True)
-      
-      return fc_dataframe
-
-def extract_raster_values(raster_file, ws_points):
-      """
-      !!!
-      """
-
       # read raster input and make a raster layer
       raster = arcpy.Raster(raster_file)
       arcpy.MakeRasterLayer_management(raster, 'raster_layer')
       in_raster = 'raster_layer'
 
       # make feature layer from the input feature class
-      arcpy.MakeFeatureLayer_management(ws_points, "feature_layer")  
+      arcpy.MakeFeatureLayer_management(points, "feature_layer")  
       in_point_features = 'feature_layer'
       
       # make feature layer for the output feature class
-      arcpy.MakeFeatureLayer_management(ws_points, "output_layer")
+      arcpy.MakeFeatureLayer_management(points, "output_layer")
       extracted_values = 'output_layer'
       
-      extracted_values = ExtractValuesToPoints(in_point_features=in_point_features,
+      extracted_values = ExtractValuesToPoints(
+            in_point_features=in_point_features,
             in_raster=in_raster,
             out_point_features=extracted_values)
       
@@ -85,9 +56,30 @@ def extract_raster_values(raster_file, ws_points):
 
 def apply_cc_scenario(dataset, points, raster_file, field_name):
       """
-      !!!
-      """
+      Apply climate change scenario to the weather dataset.
+      This is done adding the values extracted from RCP raster layer 
+      to the selected air temperature field.
 
+      Parameters
+      ----------
+      dataset : ArcGIS Table
+                        Table object containing the weather data.
+      points : Feature class
+                        Feature class object containing the points.
+      raster_file : str
+                        Path to the raster file.
+      field_name : str
+                        Name of the field containing the
+                        air temperature values.
+      
+      Returns
+      -------
+      joined_df : pd.DataFrame
+                        Dataframe containing the weather dataset
+                        with a new column containing the air temperature
+                        obtained by summing the values extracted from the
+                        RCP raster layer to the original air temperature values.
+      """
       # extract raster values
       extracted_values = extract_raster_values(raster_file, points)
       arcpy.AddMessage(type(extracted_values))
@@ -96,20 +88,15 @@ def apply_cc_scenario(dataset, points, raster_file, field_name):
       table_copy = 'table_copy'
       arcpy.CopyRows_management(dataset, table_copy)
 
-      # joined_table = arcpy.AddJoin_management(
-      #       table_copy, "ID", extracted_values, "ID", join_type="KEEP_ALL"
-      # )
+      # join the table with the extracted values
       arcpy.JoinField_management(table_copy, "ID", extracted_values, "ID",
             ["RASTERVALU"])
-
-      # arr = arcpy.da.TableToNumPyArray(joined_table, '*')
-      # joined_df = pd.DataFrame.from_records(arr)
      
       # Load the joined table into a pandas dataframe
       arr = arcpy.da.TableToNumPyArray(table_copy, '*')
       joined_df = pd.DataFrame.from_records(arr)
 
-      arcpy.AddMessage(joined_df.columns.tolist())
+      # add a new column to the dataframe containing the sum of the original
       joined_df['T_RCP'] = joined_df[field_name] + joined_df['RASTERVALU']
       
       return joined_df

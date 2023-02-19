@@ -31,7 +31,6 @@ arcpy.env.overwriteOutput = True  # tool will overwrite the output dataset
 arcpy.env.qualifiedFieldNames =  False  # output field name won't include the table name
                                         # this setting is crucial for the correct reading 
                                         # of the the feature attribute tables
-#list_length = len(weather_data)  # number of datasets uploaded by user
 arcpy.env.workspace = "memory"  # set workspace in memory
 
 
@@ -40,19 +39,8 @@ arcpy.env.workspace = "memory"  # set workspace in memory
 if __name__ == "__main__":
 
       # import required functions
-      import apply_cc_scenario
-
-      from importlib import reload # !!!
-      apply_cc_scenario = reload(apply_cc_scenario) # !!!
-
-      from apply_cc_scenario import apply_cc_scenario, extract_raster_values
-
+      from apply_cc_scenario import apply_cc_scenario
      
-      
       cc_weather_df =  apply_cc_scenario(weather_data, ws_points, rcp, field)
-
       cc_weather_df.to_csv('{}\\{}.csv'.format(output_folder, output_name), index=False)
       
-
-
-
