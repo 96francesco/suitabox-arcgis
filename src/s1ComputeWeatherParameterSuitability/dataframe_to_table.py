@@ -47,11 +47,7 @@ def dataframe_to_table(dataframe, df_index):
 
       # Use an InsertCursor to insert the rows into the in-memory table
       fields = ["ID", "STAT"]
-      cursor = arcpy.da.InsertCursor(
-            "memory/weather_stat_{}".format(df_index), 
-            fields
-            )
-
-      for record in records:
-            cursor.insertRow(record)
+      with arcpy.da.InsertCursor("memory/weather_stat_{}".format(df_index), fields) as cursor:
+            for record in records:
+                  cursor.insertRow(record)
       del cursor

@@ -13,7 +13,6 @@ You should have received a copy of the GNU General Public License along with Foo
 If not, see <https://www.gnu.org/licenses/>.
 """
 
-from dataframe_to_table import dataframe_to_table
 from table_to_dataframe import table_to_dataframe
 
 def manage_subset_range(input_range, num_of_datasets):
@@ -42,7 +41,6 @@ def manage_subset_range(input_range, num_of_datasets):
                   (weather_dataframe["doy"] >= start_doy)
                   & (weather_dataframe["doy"] <= end_doy)
             ]
-            dataframe_to_table(weather_dataframe, counter)
             counter += 1
 
       return
