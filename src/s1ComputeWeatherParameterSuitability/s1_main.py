@@ -17,6 +17,7 @@ import os
 import arcpy
 from arcpy.sa import *
 import sys
+from importlib import reload # !!!
 
 sys.path.insert(1, 'src')
 
@@ -44,6 +45,7 @@ altitude_field = arcpy.GetParameterAsText(14)  # field with stations' altitude
 
 # Category: Output settings
 output_name = arcpy.GetParameterAsText(15)  # name to give to the output raster layer
+normalise = arcpy.GetParameterAsText(16)  # normalise the output raster layer
 
 ## CONSTANTS
 ## they are still treated as variable, i.e., named with lower-case lettersm
@@ -81,6 +83,8 @@ if __name__ == "__main__":
       from split_weather_datasets import split_weather_datasets
       from handle_stat import handle_stat
       from interpolate_weather_parameter import interpolate_weather_parameter
+      import compute_final_raster
+      compute_final_raster = reload(compute_final_raster) # !!!
       from compute_final_raster import *
 
        # check if input pixel size and DEM resolution match
@@ -93,8 +97,10 @@ if __name__ == "__main__":
 
       # if user has a custom DoY range, modify the input dataset accordingly
       if data_subset_range != "-":
+            # from manage_subset_range import manage_subset_range
+            import manage_subset_range
+            manage_subset_range = reload(manage_subset_range)
             from manage_subset_range import manage_subset_range
-            
             manage_subset_range(data_subset_range, list_length)
 
       # call the correct function to calculate the required statistics
@@ -124,4 +130,9 @@ if __name__ == "__main__":
       reclassified_raster = reclassify_raster(
             average_raster, reclass_table, output_name
       )
+      if normalise:
+            import normalisation
+            normalisation = reload(normalisation) # !!!
+            from normalisation import normalise_raster
+            normalised_raster = normalise_raster(reclassified_raster, output_name)
 

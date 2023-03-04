@@ -58,7 +58,8 @@ def reclassify_raster(in_raster, remap_table, out_name):
 
       # reclassify according to the remap table
       reclassified_raster = Reclassify(raster_layer, "Value", remap_table)
-      reclassified_raster = Float(reclassified_raster)
+
+      # save the reclassified raster to a file geodatabase
       arcpy.CopyRaster_management(
             reclassified_raster, out_name
       )
