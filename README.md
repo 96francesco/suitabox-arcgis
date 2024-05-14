@@ -1,8 +1,7 @@
-<a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
 [![License: GPL-3.0](https://img.shields.io/github/license/96francesco/suitabox-arcgis)](https://opensource.org/licenses/GPL-3.0)
 
 # Suitabox
-This is the repository of Suitabox, an ArcGIS Pro custom toolbox written in Python (using ArcPy).
+This is the repository of Suitabox, an ArcGIS Pro custom toolbox written in Python (using ArcPy). This toolbox was developed as part of my MSc thesis for the programme Agricultural and Environmental Sciences at University of Bari. The thesis manuscript can be found in the file thesis.pdf. 
 
 **Contents**
 1. [Description](#description)
@@ -56,7 +55,7 @@ containing the predicted increase of air temperature (expressed in °C) for a ce
 The user can then import the output CSV file as a table in a file Geodatabase and use it as input for the **s1ComputeWeatherParameterSuitability** tool.
 
 ### 4. FinalSuitabilityModel
-This tool, built on the ModelBuilder, is useful to combine the results of the previous tools into a an expression in the Raster Calculator, in order to obtain a final, global suitability raster layer. To use it properly, double-click on the tool icon and click **Edit**. This way, users can copy/paste the previous tools more times inside the model diagram in order to reiterate the computation over more parameters, and then connecting the output of each iteration to the Raster Calculator as **Precondition**. Users can implement their own final suitability score calculation (for instance, a weighted calculation). 
+This tool is useful to combine the results of the previous tools into a an expression in the Raster Calculator, in order to obtain a final, global suitability raster layer.
 
 ## **Contributions**
 If you'd want to contribute as a developer to the project, take these steps to get started:
